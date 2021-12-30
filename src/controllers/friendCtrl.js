@@ -1,4 +1,5 @@
 const Friend = require("../models/friendModel");
+const authRoutes = require('../routes/authRoutes')
 
 //To create a new friend entry
 exports.create = (req, res) => {
