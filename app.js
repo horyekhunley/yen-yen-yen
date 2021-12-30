@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config()
 const friendRoutes = require('./src/routes/friendRoutes')
+const authRoutes = require('./src/routes/authRoutes')
 
 const app = express()
 
@@ -16,7 +17,8 @@ mongoose.connect(process.env.MONGOOSE_URI, {
   console.log('Error connecting to MongoDB. Error...', err)
   process.exit
 })
-app.use('/', friendRoutes)
+app.use('/api/v1/friends', friendRoutes)
+app.use('/api/v1/user', authRoutes)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server running at http://localhost:${port}`))
