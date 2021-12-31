@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGOOSE_URI, {
   process.exit
 })
 app.use('/api/v1/friends', friendRoutes)
-app.use('/api/v1/user', authRoutes)
+app.use('/api/v1/users', authRoutes)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server running at http://localhost:${port}`))

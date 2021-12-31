@@ -1,26 +1,23 @@
-const Friend = require("../models/friendModel");
-const authRoutes = require('../routes/authRoutes')
+const User = require("../models/userModel");
 
-//To create a new friend entry
 exports.create = (req, res) => {
-	const friend = new Friend({
+	const user = new User({
 		...req.body,
 	});
-	friend
+	user
 		.save()
 		.then((data) => {
 			res.send(data);
 		})
 		.catch((err) => {
 			res.status(500).send({
-				message:
-					err.message || "Error occured while creating a new friend entry",
+				message: err.message || "Error occured while creating a new user",
 			});
 		});
 };
-//To get all friends from the database
+//To get all users from the database
 exports.list = (req, res) => {
-	Friend.find()
+	User.find()
 		.then((data) => {
 			res.send(data);
 		})
@@ -28,17 +25,17 @@ exports.list = (req, res) => {
 			res.status(500).send({
 				message:
 					err.message ||
-					"Error occured while retrieving all friend in the database",
+					"Error occured while retrieving all users in the database",
 			});
 		});
 };
-//To find a single friend from the database
+//To find a single user from the database
 exports.read = (req, res) => {
-	Friend.findById(req.params.friendId)
+	User.findById(req.params.userId)
 		.then((data) => {
 			if (!data) {
 				return res.status(404).send({
-					message: "Friend with id " + req.params.friendId + " not found",
+					message: "User with id " + req.params.userId + " not found",
 				});
 			}
 			res.send(data);
@@ -47,21 +44,19 @@ exports.read = (req, res) => {
 			if (err.kind === "ObjectId") {
 				return res.status(404).send({
 					message:
-						"Friend with id " +
-						req.params.friendId +
-						" not found, cannot update",
+						"User with id " + req.params.userId + " not found, cannot update",
 				});
 			}
 			return res.status(500).send({
 				message:
-					"Friend with id " + req.params.friendId + " not found, cannot update",
+					"User with id " + req.params.userId + " not found, cannot update",
 			});
 		});
 };
-// Updating a single friend record from the database
+// Updating a single user record from the database
 exports.update = (req, res) => {
-	Friend.findByIdAndUpdate(
-		req.params.friendId,
+	User.findByIdAndUpdate(
+		req.params.userId,
 		{
 			...req.body,
 		},
@@ -70,7 +65,7 @@ exports.update = (req, res) => {
 		.then((data) => {
 			if (!data) {
 				return res.status(404).send({
-					message: "Friend with id " + req.params.friendId + " not found",
+					message: "User with id " + req.params.userId + " not found",
 				});
 			}
 			res.send(data);
@@ -79,34 +74,32 @@ exports.update = (req, res) => {
 			if (err.kind === "ObjectId") {
 				return res.status(404).send({
 					message:
-						"Friend with id " +
-						req.params.friendId +
-						" not found, cannot update",
+						"User with id " + req.params.userId + " not found, cannot update",
 				});
 			}
 			return res.status(500).send({
 				message:
-					"Friend with id " + req.params.friendId + " not found, cannot update",
+					"User with id " + req.params.userId + " not found, cannot update",
 			});
 		});
 };
 // To delete a friend record from the database
 exports.delete = (req, res) => {
-	Friend.findByIdAndRemove(req.params.friendId)
+	User.findByIdAndRemove(req.params.userId)
 		.then((data) => {
 			if (!data) {
 				return res.status(404).send({
 					message:
-						"Friend with " + req.params.friendId + " not found, cannot delete",
+						"user with " + req.params.userId + " not found, cannot delete",
 				});
 			}
-			res.send({ message: "Friend record deleted successfully" });
+			res.send({ message: "user record deleted successfully" });
 		})
 		.catch((err) => {
 			if (err.kind === "ObjectId" || err.name === "NotFound") {
 				return res.status(404).send({
 					message:
-						"Friend with " + req.params.friendId + " not found, cannot delete",
+						"user with " + req.params.userId + " not found, cannot delete",
 				});
 			}
 		});
